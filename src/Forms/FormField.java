@@ -22,9 +22,19 @@ public class FormField extends JFrame {
     private JButton buttonToDown;
 
     private DrawingField field = new DrawingField();
-    Timer timer = new Timer(1000, new ActionListener() {});
+    ActionListener actionListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            timer.stop();
+            timer = new Timer(100, actionListener);
+            timer.start();
+            fieldPanel.repaint();
+        }
+    };
+    Timer timer = new Timer(100, actionListener);
 
     public FormField (){
+        timer.start();
         setContentPane(formPanel);
         setSize(1280, 720);
         setVisible(true);
