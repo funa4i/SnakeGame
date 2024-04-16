@@ -3,6 +3,8 @@ package Forms;
 import Drawings.DrawingField;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class FormField extends JFrame {
     private JButton buttonPause;
@@ -20,7 +22,7 @@ public class FormField extends JFrame {
     private JButton buttonToDown;
 
     private DrawingField field = new DrawingField();
-
+    Timer timer = new Timer(1000, new ActionListener() {});
 
     public FormField (){
         setContentPane(formPanel);
