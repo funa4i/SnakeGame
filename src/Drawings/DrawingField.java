@@ -2,30 +2,30 @@ package Drawings;
 
 import Entity.Snake;
 import Enums.Direction;
-import Enums.Status;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayDeque;
-import java.util.Deque;
 
 public class DrawingField extends JComponent {
 
     private Direction direction = Direction.Down;
 
-    public int fieldSize = 25;
+    public int fieldSize = 50;
 
     private Point appleCord = new Point();
     public DrawingField() {
     }
-    Snake snake = new Snake();
-    public void setDirection(Direction direction) {
-        this.direction = direction;
+    private Snake snake = new Snake();
+
+    public Snake getSnake(){
+        return snake;
     }
+    public void setDirection(Direction direction) {
+   }
 
     private void drawSnake(Graphics g){
         Graphics2D g2 = (Graphics2D) g;
-        boolean appleIsEaten = snake.moveSnake(direction, appleCord, 10);
+        boolean appleIsEaten = snake.moveSnake(direction, appleCord, fieldSize);
 
         // Отрисовка тела
         for (Point i: snake.getSnakePositions()){

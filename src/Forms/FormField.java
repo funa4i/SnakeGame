@@ -1,10 +1,12 @@
 package Forms;
 
 import Drawings.DrawingField;
+import Enums.Direction;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+
+import static java.lang.Math.*;
 
 public class FormField extends JFrame {
     private JButton buttonPause;
@@ -26,19 +28,45 @@ public class FormField extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             timer.stop();
-            timer = new Timer(100, actionListener);
+            timer = new Timer(max(60, min(15 * field.fieldSize / (field.getSnake().getSnakePositions().size()), 400)), actionListener);
             timer.start();
             fieldPanel.repaint();
         }
     };
-    Timer timer = new Timer(100, actionListener);
+    Timer timer = new Timer(50, actionListener);
+
+
+
+
+
+    KeyListener keyAdapter =  new KeyListener() {
+
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+            field.setDirection(Direction.Left);
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            field.setDirection(Direction.Left);
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            field.setDirection(Direction.Left);
+        }
+    };
 
     public FormField (){
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         timer.start();
         setContentPane(formPanel);
         setSize(1280, 720);
         setVisible(true);
         fieldPanel.add(field);
+        addKeyListener(keyAdapter);
+        
     }
 
 }

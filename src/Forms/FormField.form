@@ -6,7 +6,10 @@
       <xy x="20" y="20" width="1082" height="769"/>
     </constraints>
     <properties>
+      <focusCycleRoot value="true"/>
+      <focusTraversalPolicyProvider value="true"/>
       <foreground color="-14346165"/>
+      <opaque value="false"/>
     </properties>
     <clientProperties>
       <html.disable class="java.lang.Boolean" value="false"/>
