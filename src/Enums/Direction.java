@@ -1,9 +1,6 @@
-import javax.swing.*;
-import java.awt.*;
+package Enums;
 
-public class DrawingField extends JComponent {
-
-    enum Direction{
+public enum Direction {
         None(0),
         Up(1),
         Down(2),
@@ -19,14 +16,5 @@ public class DrawingField extends JComponent {
         public int getValue() {
             return value;
         }
-    }
 
-
-
-
-
-    @Override
-    public void paintComponent(Graphics g){
-
-    }
 }

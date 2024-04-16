@@ -1,5 +1,7 @@
 package Forms;
 
+import Drawings.DrawingField;
+
 import javax.swing.*;
 
 public class FormField extends JFrame {
@@ -17,11 +19,14 @@ public class FormField extends JFrame {
     private JPanel fieldPanel;
     private JButton buttonToDown;
 
+    private DrawingField field = new DrawingField();
+
 
     public FormField (){
         setContentPane(formPanel);
         setSize(1280, 720);
         setVisible(true);
+        fieldPanel.add(field);
     }
 
 }
