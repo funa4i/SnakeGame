@@ -5,10 +5,10 @@ import Enums.Direction;
 
 import javax.swing.*;
 import java.awt.event.*;
-
+import java.awt.*;
 import static java.lang.Math.*;
 
-public class FormField extends JFrame {
+public class FormField extends JFrame implements KeyListener{
     private JButton buttonPause;
     private JPanel formPanel;
     private JLabel scoreLabel;
@@ -23,40 +23,15 @@ public class FormField extends JFrame {
     private JPanel fieldPanel;
     private JButton buttonToDown;
 
-    private DrawingField field = new DrawingField();
+    private final DrawingField field = new DrawingField();
     ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            timer.stop();
-            timer = new Timer(max(60, min(15 * field.fieldSize / (field.getSnake().getSnakePositions().size()), 400)), actionListener);
-            timer.start();
+            timer.setDelay(max(60, min(15 * field.fieldSize / (field.getSnake().getSnakePositions().size()), 400)));
             fieldPanel.repaint();
         }
     };
     Timer timer = new Timer(50, actionListener);
-
-
-
-
-
-    KeyListener keyAdapter =  new KeyListener() {
-
-
-        @Override
-        public void keyTyped(KeyEvent e) {
-            field.setDirection(Direction.Left);
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-            field.setDirection(Direction.Left);
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            field.setDirection(Direction.Left);
-        }
-    };
 
     public FormField (){
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,8 +40,54 @@ public class FormField extends JFrame {
         setSize(1280, 720);
         setVisible(true);
         fieldPanel.add(field);
-        addKeyListener(keyAdapter);
-        
+
+        buttonToUp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (field.getDirection() == Direction.None){
+                    return;
+                }
+                field.setDirection(Direction.Up);
+
+            }
+        });
+        buttonToDown.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                field.setDirection(Direction.Down);
+
+            }
+        });
+
+        buttonToLeft.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                field.setDirection(Direction.Left);
+
+            }
+        });
+
+        buttonToRight.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                field.setDirection(Direction.Right);
+
+            }
+        });
     }
 
+    @Override
+    public void keyTyped(KeyEvent e) {
+        System.out.println("Dwadwa");
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        System.out.println("Dwadwa");
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        System.out.println("Dwadwa");
+    }
 }
