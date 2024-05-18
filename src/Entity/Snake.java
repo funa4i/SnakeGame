@@ -32,7 +32,16 @@ public class Snake {
             case Left -> {--buf.x;}
             case Right -> {++buf.x;}
         }
-        if (!snakePositions.contains(buf) && !(buf.x >= fieldSize || buf.x < 0 || buf.y >= fieldSize || buf.y < 0)) {
+
+        buf.x = buf.x % fieldSize;
+        buf.y = buf.y % fieldSize;
+        if (buf.x < 0){
+            buf.x = fieldSize - 1;
+        }
+        if (buf.y < 0){
+            buf.y = fieldSize - 1;
+        }
+        if (!snakePositions.contains(buf) && !(buf.x > fieldSize  || buf.y > fieldSize )) {
             if (!buf.equals(appleCord)) {
                 snakePositions.pollLast();
             }

@@ -4,90 +4,117 @@ import Drawings.DrawingField;
 import Enums.Direction;
 
 import javax.swing.*;
-import java.awt.event.*;
 import java.awt.*;
-import static java.lang.Math.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class FormField extends JFrame implements KeyListener{
-    private JButton buttonPause;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
+public class FormField extends JFrame {
     private JPanel formPanel;
     private JLabel scoreLabel;
     private JLabel squareLabel;
-    private JPanel buttonsMovementPanel;
-    private JButton buttonToLeft;
-    private JButton buttonToRight;
-    private JButton buttonToUp;
-    private JButton buttonDecreaseFieldSquares;
-    private JButton buttonIncreaseFieldSquares;
-    private JButton buttonRepeat;
     private JPanel fieldPanel;
-    private JButton buttonToDown;
+    private JLabel labelStatus;
+
 
     private final DrawingField field = new DrawingField();
     ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            timer.setDelay(max(60, min(15 * field.fieldSize / (field.getSnake().getSnakePositions().size()), 400)));
+            timerFieldGame.setDelay(max(100, min(45 * field.fieldSize / (field.getSnake().getSnakePositions().size()), 400)));
             fieldPanel.repaint();
+            String score = "Score: ";
+            String status = "Status: ";
+            String squares = "Squares count: ";
+            squareLabel.setText(squares + field.fieldSize * field.fieldSize);
+
+            if (field.getSnake().getAlive()){
+                labelStatus.setText(status + "Alive");
+            }
+            else{
+                labelStatus.setText(status + "Die");
+            }
+            scoreLabel.setText(score + " " + field.getSnake().getSnakePositions().size());
+            setFocusable(true);
         }
     };
-    Timer timer = new Timer(50, actionListener);
+    Timer timerFieldGame = new Timer(50, actionListener);
+
+
 
     public FormField (){
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        timer.start();
+
+        setFocusable(true);
+        KeyListener keyListener = new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_D:
+                        field.setDirection(Direction.Right);
+                        break;
+                    case KeyEvent.VK_W:
+                        if (field.getDirection() == Direction.None) {
+                            return;
+                        }
+                        field.setDirection(Direction.Up);
+                        break;
+                    case KeyEvent.VK_A:
+                        field.setDirection(Direction.Left);
+                        break;
+                    case KeyEvent.VK_S:
+                        field.setDirection(Direction.Down);
+                        break;
+                    case KeyEvent.VK_SPACE:
+                        field.setDirection(Direction.None);
+                        break;
+                    case KeyEvent.VK_R:
+                        field.reCreateSnake();
+                        field.setDirection(Direction.None);
+                        break;
+                    case KeyEvent.VK_Q:
+                        if (field.fieldSize <= 10){
+                            return;
+                        }
+                        field.fieldSize--;
+                        field.reCreateSnake();
+                        field.reCrateApple();
+                        field.setDirection(Direction.None);
+                        break;
+                    case KeyEvent.VK_E:
+                        if (field.fieldSize >= 50){
+                            return;
+                        }
+                        field.fieldSize++;
+                        field.reCreateSnake();
+                        field.setDirection(Direction.None);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        };
+        addKeyListener(keyListener);
+           setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        timerFieldGame.start();
         setContentPane(formPanel);
         setSize(1280, 720);
         setVisible(true);
         fieldPanel.add(field);
 
-        buttonToUp.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (field.getDirection() == Direction.None){
-                    return;
-                }
-                field.setDirection(Direction.Up);
 
-            }
-        });
-        buttonToDown.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                field.setDirection(Direction.Down);
-
-            }
-        });
-
-        buttonToLeft.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                field.setDirection(Direction.Left);
-
-            }
-        });
-
-        buttonToRight.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                field.setDirection(Direction.Right);
-
-            }
-        });
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-        System.out.println("Dwadwa");
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        System.out.println("Dwadwa");
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        System.out.println("Dwadwa");
     }
 }

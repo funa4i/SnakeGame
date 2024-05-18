@@ -9,15 +9,29 @@ import java.util.Random;
 
 public class DrawingField extends JComponent {
 
-    private Direction direction = Direction.None;
-
+    private Direction direction;
     public int fieldSize = 30;
-
     private Point appleCord = new Point(-1, -1);
     public DrawingField() {
+        direction = Direction.None;
 
     }
     private Snake snake = new Snake();
+
+    public void reCreateSnake(){
+        snake = new Snake();
+    }
+
+    public void reCrateApple(){
+        Random random = new Random();
+        int x = random.nextInt(0, fieldSize), y = random.nextInt(0, fieldSize);
+        appleCord = new Point(x, y);
+        if (snake.getSnakePositions().contains(appleCord)){
+            appleCord.x = -1;
+            appleCord.y = -1;
+        }
+    }
+
 
     public Snake getSnake(){
         return snake;
@@ -25,7 +39,6 @@ public class DrawingField extends JComponent {
     public void setDirection(Direction direction) {
         this.direction = direction;
    }
-
     public Direction getDirection() {
         return direction;
     }
@@ -33,14 +46,8 @@ public class DrawingField extends JComponent {
     private void drawSnake(Graphics g){
         Graphics2D g2 = (Graphics2D) g;
         boolean appleIsEaten = snake.moveSnake(direction, appleCord, fieldSize);
-        Random random = new Random();
-        int x = random.nextInt(0, fieldSize + 1), y = random.nextInt(0, fieldSize + 1);
         if (appleIsEaten || appleCord.x == -1 || appleCord.y == -1){
-            appleCord = new Point(x, y);
-            if (snake.getSnakePositions().contains(appleCord)){
-                appleCord.x = -1;
-                appleCord.y = -1;
-            }
+            reCrateApple();
         }
         // Отрисовка тела
         for (Point i: snake.getSnakePositions()){
